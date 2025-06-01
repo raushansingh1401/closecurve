@@ -53,7 +53,7 @@
       resultDiv.textContent = '⏳ Fetching data...';
 
       try {
-        const res = await fetch(`http://127.0.0.1:5000/average-close?ticker=${ticker}&year=${year}&month=${month}`);
+        const res = await fetch(`https://closecurve-backend.onrender.com/average-close?ticker=${ticker}&year=${year}&month=${month}`);
         const data = await res.json();
 
         if (res.ok) {
