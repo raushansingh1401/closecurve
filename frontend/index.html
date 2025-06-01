@@ -1,1 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CloseCurve - Average Closing Price</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+    }
+    input, select, button {
+      padding: 8px;
+      margin: 10px 0;
+      width: 100%;
+    }
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📈 CloseCurve</h1>
+  <p>Find the average closing price for a stock in a month.</p>
+
+  <label>Stock Ticker:</label>
+  <input type="text" id="ticker" placeholder="e.g., AAPL">
+
+  <label>Year:</label>
+  <input type="number" id="year" placeholder="e.g., 2024">
+
+  <label>Month (1-12):</label>
+  <input type="number" id="month" placeholder="e.g., 4">
+
+  <button onclick="getAverageClose()">Get Average Close</button>
+
+  <div id="result"></div>
+
+  <script>
+    async function getAverageClose() {
+      const ticker = document.getElementById('ticker').value.trim();
+      const year = document.getElementById('year').value;
+      const month = document.getElementById('month').value;
+      const resultDiv = document.getElementById('result');
+
+      if (!ticker || !year || !month) {
+        resultDiv.textContent = '❌ Please fill all fields.';
+        return;
+      }
+
+      resultDiv.textContent = '⏳ Fetching data...';
+
+      try {
+        const res = await fetch(`http://127.0.0.1:5000/average-close?ticker=${ticker}&year=${year}&month=${month}`);
+        const data = await res.json();
+
+        if (res.ok) {
+          resultDiv.textContent = `✅ ${data.ticker} average closing price: $${data.average_close}`;
+        } else {
+          resultDiv.textContent = `❌ Error: ${data.error}`;
+        }
+      } catch (error) {
+        resultDiv.textContent = '❌ Could not reach backend. Is it running?';
+      }
+    }
+  </script>
+
+</body>
+</html>
  

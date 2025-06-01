@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
 import yfinance as yf
 from datetime import datetime
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/average-close')
 def average_close():
